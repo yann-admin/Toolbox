@@ -30,4 +30,8 @@
     if (!is_dir('../app/json')){mkdir('../app/json');};
     if (!is_dir('../app/images')){mkdir('../app/images');};
     if (!is_dir('../app/includes')){mkdir('../app/includes');};
+
+    if (!is_dir('../StructureTables')){mkdir('../StructureTables');};
+    if (!is_dir('../StructureFormulaires')){mkdir('../StructureFormulaires');};
+
 ?>
