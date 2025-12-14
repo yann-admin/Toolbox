@@ -24,17 +24,19 @@
             /************************************* A MODIFIER ************************************************* */
             # Tables de la base de donnée. 'ex: userapp'  
                 $DataBase='creation';     
+                $version="2.0";
+                $name = $DataBase;
             #********************
             # type input possible: text, number, date, phone, mail, textarea, select , file, password (!!!!! Déclaré la colonne ID)
                 $TypeInputTable=array('number','text');    
             #********************              
             # Var bool pour supprimer le fichier avant écriture
                 $boolClearData=true;
-
-                // $boolCreateControllers = true;
-                // $boolCreateEntities = true;
+                $boolCreateEntities = true;
+                $boolCreateControllers = true;
+                $boolCreateForm = true;                
                 // $boolCreateModels = true;
-                // $boolCreateForm = false;
+
                 #******************** 
                 # Représentation graphique des tables de la base de donnée.
                 $path = "../StructureTables/";                               # Chemin pour aller à la racine du serveur.
@@ -89,5 +91,10 @@
                 };
             #********************
 
-            $tableJson = file_get_contents('../Représentation_structure_Table_'.$DataBase.'.json');
-            $table = json_decode($tableJson, true);
+            // $tableJson = file_get_contents('../Représentation_structure_Table_'.$DataBase.'.json');
+            // $table = json_decode($tableJson, true);
+                if($boolCreateEntities == true){include'constructor_Entities.php';};
+                if($boolCreateControllers == true){include'constructor_Controllers.php';};
+                if($boolCreateForm == true){include'constructor_Forms.php';};
+
+                

@@ -33,5 +33,6 @@
 
     if (!is_dir('../StructureTables')){mkdir('../StructureTables');};
     if (!is_dir('../StructureFormulaires')){mkdir('../StructureFormulaires');};
-
+    if (!is_dir('../StructureControllers')){mkdir('../StructureControllers');};
+    if (!is_dir('../StructureEntities')){mkdir('../StructureEntities');};
 ?>
