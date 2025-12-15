@@ -96,4 +96,5 @@
             if($boolCreateControllers == true){include'constructor_Controllers.php';};
             if($boolCreateForm == true){include'constructor_Forms.php';};
             if($boolCreateModels == true){include'constructor_Models.php';};
+            if($boolCopySource == true){include'constructor_Copy_Source.php';};
 ?>

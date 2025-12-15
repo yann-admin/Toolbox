@@ -1,0 +1,100 @@
+/* Media query ciblant les mobiles (jusqu’à 30em ≈ 480px) */
+@media screen and (max-width: 30em) {}
+/* Media query ciblant les tablettes (plus de 30em) */
+@media screen and (min-width: 30em) {}
+/* Media query ciblant les ordinateur (min de 30em et max 62em) */
+@media screen and (min-width: 30em) and (max-width: 62em) {}
+
+html{
+  background-color: #ddf8da9c;
+  height: 100%;
+}
+body{
+  background-color: #caf1c69c;
+  max-width: 1280px;
+  min-height: 1200px; 
+  margin:0 auto 0 auto;
+}
+image{
+    max-width: 100%;
+    height: auto;
+}
+.picture{
+    max-width: 100%;
+    height: auto;
+    width: 250px;
+}
+/* ======================== */
+/* STRUCTURE GLOBALE DU SITE */
+/* ======================== */
+.wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    border: 1px solid #F6F1EE;
+    height: 100%;
+}
+
+
+
+
+
+
+
+.picture{
+    max-width: 100%;
+    height: auto;
+    width: 150px;
+}
+
+.bleu{
+    color:blue;
+    font-size:25px;
+}
+
+.red{
+    color: red;
+    font-size:25px;
+}
+
+.brown{
+    color:brown;
+    font-size:25px;
+}
+
+.green{
+    color:green;
+    font-size:25px;
+}
+
+
+.picto-item {
+  position: relative;  /*les .picto-item deviennent référents*/
+  cursor: help;
+  border-radius: 50%;
+}
+
+/* on génère un élément :after lors du survol et du focus :*/
+
+.picto-item:hover:after,
+.picto-item:focus:after {
+  content: attr(aria-label);  /* on affiche aria-label */
+  position: absolute;
+  top: -2.4em;
+  left: 50%;
+	transform: translateX(-50%); /* on centre horizontalement  */
+  z-index: 1; /* pour s'afficher au dessus des éléments en position relative */
+  white-space: nowrap;  /* on interdit le retour à la ligne*/
+  padding: 5px 14px;
+  background: #413219;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1.2rem;
+}
+
+.icone{
+  margin-right: 30px;
+}
+
+input:invalid {
+  border: red solid 3px;
+}

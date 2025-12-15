@@ -15,6 +15,7 @@
         # Include du fichier JSON structure de la table
         $tableJson = file_get_contents('../StructureTables/Représentation_structure_Table_'. $name .'.json');
         $table = json_decode($tableJson, true);
+        $idColumn = $table[0]["COLUMN_NAME"];
                                                                 /* ▂ ▅ ▆ █ Models █ ▆ ▅ ▂ */
         #Add file in under directory :
         $file = fopen($fileModels,'w+');
@@ -72,7 +73,6 @@
         # Writing findId( int$id ) :
         fwrite($file,"\t\t\t". "/* ▂ ▅  findId( int \$id )  ▅ ▂ */" ."\n");
         fwrite($file,"\t\t\t\t". "public function findId( int \$id ) { " ."\n");
-        $idColumn = $table[0]["COLUMN_NAME"];
         fwrite($file,"\t\t\t\t\t". "\$this -> request = \$this -> connexion -> prepare( \"SELECT $name.* FROM $name WHERE $name.$idColumn=:$idColumn\" );" ."\n");
         fwrite($file,"\t\t\t\t\t". "\$this -> request -> bindParam(\":$idColumn\", \$id , PDO::PARAM_STR);" ."\n");
         fwrite($file,"\t\t\t\t\t". "\$this -> request -> execute();" ."\n");
@@ -90,19 +90,46 @@
         fwrite($file,"\t\t\t\t\t". "return \$results;" ."\n");
         fwrite($file,"\t\t\t\t". "}" ."\n");
         fwrite($file,"\t\t\t". "/* ▂▂▂▂▂▂▂▂▂▂▂ */" ."\n\n");
+        #*************************************************************************************************************************************************************************************************
+        # Writing findDistinct(  ) :
+        fwrite($file,"\t\t". "/* ▂ ▅  findDistinct(  )  ▅ ▂ */" ."\n");
+        fwrite($file,"\t\t\t\t". "public function findDistinct( ) { " ."\n");
+        fwrite($file,"\t\t\t\t\t". "'A DEVELOPPER'; " ."\n");
+        fwrite($file,"\t\t\t\t\t". "\$this -> request -> execute();" ."\n");
+        fwrite($file,"\t\t\t\t\t". "\$results = \$this -> request -> fetchAll();" ."\n");
+        fwrite($file,"\t\t\t\t\t". "return \$results;" ."\n");
+        fwrite($file,"\t\t\t\t". "}" ."\n");
+        fwrite($file,"\t\t\t". "/* ▂▂▂▂▂▂▂▂▂▂▂ */" ."\n\n");
 
-        # create(Entities $Entiites) :
+        # Writing findDistinct(  ) :
+        fwrite($file,"\t\t". "/* ▂ ▅  findAllJoint(  )  ▅ ▂ */" ."\n");
+        fwrite($file,"\t\t\t\t". "public function findAllJoint( ) { " ."\n");
+        fwrite($file,"\t\t\t\t\t". "'A DEVELOPPER'; " ."\n");
+        fwrite($file,"\t\t\t\t\t". "\$this -> request -> execute();" ."\n");
+        fwrite($file,"\t\t\t\t\t". "\$results = \$this -> request -> fetchAll();" ."\n");
+        fwrite($file,"\t\t\t\t\t". "return \$results;" ."\n");
+        fwrite($file,"\t\t\t\t". "}" ."\n");
+        fwrite($file,"\t\t\t". "/* ▂▂▂▂▂▂▂▂▂▂▂ */" ."\n\n");
+        #*************************************************************************************************************************************************************************************************
+
+
+
+        # Writing create(Entities $Entiites) :
+        fwrite($file,"\t\t\t". "/* ▂ ▅  create( " . ucfirst($name) .' $'.ucfirst($name) . " )  ▅ ▂ */" ."\n");
+        fwrite($file,"\t\t\t\t". "public function create( " . ucfirst($name) .' $'.ucfirst($name) . " ) { " ."\n");
+        fwrite($file,"\t\t\t\t\t". "\$this -> request = \$this -> connexion -> prepare( \"INSERT INTO $name"."\n");        
         # Writing list set and create :
-        $paramCreate='';
-        $paramSet='';
+        $paramCreate = '';
+        $paramSet = '';
+        $PDO = '';
+        $param ='';
+        $get = '';
+        $entities = '$'.ucfirst($name);        
         for ($i=0 ; $i<count($table) ; $i++){ 
             if($i==0){
                 $paramCreate='';
             }else{
                 if(($i<count($table)-1)){
-                    #call function write PDO::STATEMENT
-                    //$PDO=typePdo($table[$i]['DATA_TYPE']);
-                    //$PDO=$table[$i]['DATA_TYPE'];
                     $paramCreate.= $name.".".$table[$i]['COLUMN_NAME']."=:".$table[$i]['COLUMN_NAME'] .", ";
                     $paramSet.= $name.".".$table[$i]['COLUMN_NAME'] . "=:". $table[$i]['COLUMN_NAME'].", ";
                 }else{
@@ -111,33 +138,59 @@
                 };
             };
         };
-
-        fwrite($file,"\t\t\t". "/* ▂ ▅  create( " . ucfirst($name) .' $'.ucfirst($name) . " )  ▅ ▂ */" ."\n");
-        fwrite($file,"\t\t\t\t". "public function create( " . ucfirst($name) .' $'.ucfirst($name) . " ) { " ."\n");
-        fwrite($file,"\t\t\t\t\t". "\$this -> request = \$this -> connexion -> prepare( \"INSERT INTO $name"."\n");
         fwrite($file,"\t\t\t\t\t". "SET $paramCreate" ."\");" ."\n");
         # Writing bindValue :
         for ($i=1 ; $i<count($table) ; $i++){ 
             #call function write PDO::STATEMENT
-            $PDO=typePdo($table[$i]['DATA_TYPE']);
-            //$PDO=$table[$i]['DATA_TYPE'];
+            $PDO = typePdo($table[$i]['DATA_TYPE']);
             $param = $table[$i]['COLUMN_NAME'];
             $get = "get".ucfirst($param);
-            $entities = '$'.ucfirst($name);
-            fwrite($file,"\t\t\t\t\t". "\$this -> request -> bindValue(\":$param\", $entities -> $get()$PDO);" ."\n");
+            fwrite($file,"\t\t\t\t\t" . "\$this -> request -> bindValue(\":$param\", $entities -> $get()$PDO);" ."\n");
         };
         fwrite($file,"\t\t\t\t\t". "\$pdoDbException = \$this -> executeTryCatch(); " ."\n");
         fwrite($file,"\t\t\t\t\t". "return \$pdoDbException; " ."\n");
         fwrite($file,"\t\t\t\t". "}" ."\n");
         fwrite($file,"\t\t\t". "/* ▂▂▂▂▂▂▂▂▂▂▂ */" ."\n\n");
 
+        # Writing update( int $id, Entities $Entiites) :
+        fwrite($file,"\t\t\t" . "/* ▂ ▅  update( int \$id, " . ucfirst($name) .' $'.ucfirst($name) . " )  ▅ ▂ */" ."\n");
+        fwrite($file,"\t\t\t\t" . "public function update( int \$id, " . ucfirst($name) .' $'.ucfirst($name) . " ) { " ."\n");
+        fwrite($file,"\t\t\t\t\t" . "\$this -> request = \$this -> connexion -> prepare( \"UPDATE $name"."\n"); 
+        fwrite($file,"\t\t\t\t\t" . "SET $paramSet" ."\n");
+        fwrite($file,"\t\t\t\t\t" . "WHERE $name.$idColumn = :$idColumn\");" ."\n");
+        for ($i=1 ; $i<count($table) ; $i++){ 
+            #call function write PDO::STATEMENT
+            $PDO=typePdo($table[$i]['DATA_TYPE']);
+            $param = $table[$i]['COLUMN_NAME'];
+            $get = "get".ucfirst($param);
+            fwrite($file,"\t\t\t\t\t" . "\$this -> request -> bindValue(\":$param\", $entities -> $get()$PDO);" ."\n");
+        };
+        fwrite($file,"\t\t\t\t\t" . "\$pdoDbException = \$this -> executeTryCatch(); " ."\n");
+        fwrite($file,"\t\t\t\t\t" . "return \$pdoDbException; " ."\n");
+        fwrite($file,"\t\t\t\t" . "}" ."\n");
+        fwrite($file,"\t\t\t" . "/* ▂▂▂▂▂▂▂▂▂▂▂ */" ."\n\n");
+        # Writing update( int $id) :
+        fwrite($file,"\t\t\t". "/*▂ ▅  delete( int \$id )  ▅ ▂ */" ."\n");
+        fwrite($file,"\t\t\t\t". "public function delete( int \$id ) {" ."\n");
+        fwrite($file,"\t\t\t\t\t". "\$this -> request = \$this -> connexion -> prepare(\"DELETE FROM $name WHERE $name.$idColumn = :$idColumn\");" ."\n");
+        #call function write PDO::STATEMENT
+        $PDO=typePdo($table[0]['DATA_TYPE']);
+        fwrite($file,"\t\t\t\t\t". "\$this -> request -> bindParam(\":$idColumn\", \$id $PDO);" . "\n");
+        fwrite($file,"\t\t\t\t\t" . "\$pdoDbException = \$this -> executeTryCatch(); " ."\n");
+        fwrite($file,"\t\t\t\t\t" . "return \$pdoDbException; " ."\n");
+        fwrite($file,"\t\t\t\t" . "}" ."\n");
+        fwrite($file,"\t\t\t" . "/* ▂▂▂▂▂▂▂▂▂▂▂ */" ."\n\n");
 
-
-
-
-
-
-
+        #*************************************************************************************************************************************************************************************************
+        # Writing updateJoint(  ) :
+        fwrite($file,"\t\t". "/* ▂ ▅  updateJoint(  )  ▅ ▂ */" ."\n");
+        fwrite($file,"\t\t\t\t". "public function updateJoint( ) { " ."\n");
+        fwrite($file,"\t\t\t\t\t". "'A DEVELOPPER'; " ."\n");
+        fwrite($file,"\t\t\t\t\t" . "\$pdoDbException = \$this -> executeTryCatch(); " ."\n");
+        fwrite($file,"\t\t\t\t\t" . "return \$pdoDbException; " ."\n");
+        fwrite($file,"\t\t\t\t" . "}" ."\n");
+        fwrite($file,"\t\t\t" . "/* ▂▂▂▂▂▂▂▂▂▂▂ */" ."\n\n");
+        #*************************************************************************************************************************************************************************************************
 
 
 
