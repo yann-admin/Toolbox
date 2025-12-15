@@ -35,7 +35,7 @@
         /*--------------------------*/
         # Writing Class : 
         fwrite($file,"\t". "/* ▂ ▅ ▆ █ Class █ ▆ ▅ ▂ */" ."\n");
-        fwrite($file,"\t"."class " . ucfirst($name) ."{" . "\n");
+        fwrite($file,"\t"."class " . ucfirst($name) . "{" . "\n");
         /*--------------------------*/
         # Writing Attributs :
         fwrite($file,"\t\t". "/* ▂ ▅ Attributs ▅ ▂ */" ."\n");

@@ -35,4 +35,5 @@
     if (!is_dir('../StructureFormulaires')){mkdir('../StructureFormulaires');};
     if (!is_dir('../StructureControllers')){mkdir('../StructureControllers');};
     if (!is_dir('../StructureEntities')){mkdir('../StructureEntities');};
+    if (!is_dir('../StructureModels')){mkdir('../StructureModels');};
 ?>

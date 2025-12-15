@@ -3,7 +3,6 @@
         /* A MODIFIER */
         $version="2.0";
         $name = "creation";
-
         $nameApplication = "App";
         $form = ucfirst($name)."Form.php";
         $patchForm = "../StructureFormulaires/";
@@ -15,11 +14,6 @@
         # Include du fichier JSON structure de la table
         $tableJson = file_get_contents('../StructureTables/Représentation_structure_Table_'. $name .'.json');
         $table = json_decode($tableJson, true);
-        # Include du fichier JSON structure des formulaires
-
-        //$formStructureJson = file_get_contents('./structure_Forms.json');
-        //$formStructure = json_decode($formStructureJson, true);
-
         #Add file in under directory :
         $file = fopen($fileForm,'w+');
         $variableText='';
@@ -30,12 +24,10 @@
         fwrite($file,"\t". "/* ▂ ▅ ▆ █ Information █ ▆ ▅ ▂ */" ."\n");
         fwrite($file,"\t\t". "/* Fichier formulaire : $name via constructor_Array_DataBase_SQL.php VERSION: $version*/ \n") ;
         fwrite($file,"\t". "/* ▂ ▅ ▆ █ Formulaire pour la table: - $name - █ ▆ ▅ ▂ */" ."\n");
-        fwrite($file,"\t\t". "" . "\n");
         fwrite($file,"\t\t". "\n");
         fwrite($file,"\t\t". "# On instancie la class form" . "\n");       
         fwrite($file,"\t\t". "\$form = new Form();" . "\n");
         fwrite($file,"\t\t". "# On construit le formulaire" . "\n"); 
-
         # Writing div form
         fwrite($file,"\t\t". "\$form -> addDivOuverture( ['class'=>'container'] );" . "\n");
             # Writing Start form
@@ -54,9 +46,8 @@
                     $maxiLength = $table[$l]['CHARACTER_MAXIMUM_LENGTH']; 
                     # Null search
                     if($table[$l]['IS_NULLABLE']=="NO"){$required='required';}else{$required='';}; 
-
+                    # Writing varibale for copy & cut
                     $variableText.='$'.$name.'Value = "";' . "\n\t\t";
-
                     fwrite($file,"\t\t\t". "/* ▂   Input group : - $name -   ▂ */" ."\n");
                     # Writing label form
                     fwrite($file,"\t\t\t". "# @addLabel('for', text du label, [attributs]" . "\n"); /*Commentaires*/
@@ -75,13 +66,11 @@
                     fwrite($file,"\t\t\t". "\$form -> addDivFermeture();" . "\n");
                     fwrite($file,"\t\t\t". "/* ▂ ▂ ▂ ▂ ▂ ▂ ▂ ▂ ▂ ▂ */" ."\n\n");
                 };
-
                 # Writing Token form
                 fwrite($file,"\t\t\t". "/* ▂   TOKEN   ▂ */" ."\n");
                 fwrite($file,"\t\t\t\t". "\$form -> addToken();" . "\n");
                 fwrite($file,"\t\t\t\t". "# ├ appel function Form::createdToken()" . "\n");
                 fwrite($file,"\t\t\t". "/* ▂ ▂ ▂ ▂ ▂ ▂ ▂ */" ."\n");
-
             # Writing End form
             fwrite($file,"\t\t\t". "\$form -> endForm();" . "\n");
         # Writing div form

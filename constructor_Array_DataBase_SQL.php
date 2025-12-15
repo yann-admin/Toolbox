@@ -34,10 +34,12 @@
                 $boolClearData=true;
                 $boolCreateEntities = true;
                 $boolCreateControllers = true;
-                $boolCreateForm = true;                
-                // $boolCreateModels = true;
+                $boolCreateForm = true;    
+                $bollCreateStructureApp=true;            
+                $boolCreateModels = true;
 
                 #******************** 
+                if($bollCreateStructureApp){require'./constructor_Racine_Server.php';};
                 # Représentation graphique des tables de la base de donnée.
                 $path = "../StructureTables/";                               # Chemin pour aller à la racine du serveur.
                 $fileName = "Représentation_structure_Table_$DataBase.json";    # Nom du fichier pour la représentation graphique de la structure des tables de la base de donnée.
@@ -90,11 +92,8 @@
                     file_put_contents($fileGraphTable, $json, FILE_APPEND );               
                 };
             #********************
-
-            // $tableJson = file_get_contents('../Représentation_structure_Table_'.$DataBase.'.json');
-            // $table = json_decode($tableJson, true);
-                if($boolCreateEntities == true){include'constructor_Entities.php';};
-                if($boolCreateControllers == true){include'constructor_Controllers.php';};
-                if($boolCreateForm == true){include'constructor_Forms.php';};
-
-                
+            if($boolCreateEntities == true){include'constructor_Entities.php';};
+            if($boolCreateControllers == true){include'constructor_Controllers.php';};
+            if($boolCreateForm == true){include'constructor_Forms.php';};
+            if($boolCreateModels == true){include'constructor_Models.php';};
+?>
