@@ -37,7 +37,7 @@
                 $boolCreateForm = true;    
                 $bollCreateStructureApp=true;            
                 $boolCreateModels = true;
-
+                $boolCopySource = true;
                 #******************** 
                 if($bollCreateStructureApp){require'./constructor_Racine_Server.php';};
                 # Représentation graphique des tables de la base de donnée.
